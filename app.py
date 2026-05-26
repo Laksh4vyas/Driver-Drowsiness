@@ -2,13 +2,9 @@ import streamlit as st
 import cv2
 import numpy as np
 import time
-import os
-import urllib.request
 import threading
 from scipy.spatial import distance
 import mediapipe as mp
-from mediapipe.tasks import python
-from mediapipe.tasks.python import vision
 
 # ==========================================
 # PAGE CONFIGURATION
@@ -180,25 +176,17 @@ LEFT_EYE = [33, 160, 158, 133, 153, 144]
 RIGHT_EYE = [362, 385, 387, 263, 373, 380]
 
 # ==========================================
-# MODERN AI ENGINE
+# AI ENGINE (face_mesh — cloud compatible)
 # ==========================================
-MODEL_PATH = "face_landmarker.task"
-MODEL_URL = "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task"
-
 @st.cache_resource(show_spinner=False)
 def load_ai_engine():
-    if not os.path.exists(MODEL_PATH):
-        with st.spinner("Preparing MediaPipe Engine..."):
-            urllib.request.urlretrieve(MODEL_URL, MODEL_PATH)
-
-    base_options = python.BaseOptions(model_asset_path=MODEL_PATH)
-    options = vision.FaceLandmarkerOptions(
-        base_options=base_options,
-        output_face_blendshapes=False,
-        output_facial_transformation_matrixes=False,
-        num_faces=1
+    mp_face_mesh = mp.solutions.face_mesh
+    return mp_face_mesh.FaceMesh(
+        max_num_faces=1,
+        refine_landmarks=True,
+        min_detection_confidence=0.5,
+        min_tracking_confidence=0.5
     )
-    return vision.FaceLandmarker.create_from_options(options)
 
 # ==========================================
 # MAIN DASHBOARD CONTROLLER
@@ -315,19 +303,18 @@ def main_app():
             prev_time = curr_time
             
             # AI Inference
-            mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb)
-            detection_result = detector.detect(mp_image)
+            detection_result = detector.process(rgb)
             
             current_status = "No Face Found"
             current_ear = 0.0
             
-            if detection_result.face_landmarks:
+            if detection_result.multi_face_landmarks:
                 current_status = "Active"
-                face_landmarks = detection_result.face_landmarks[0]
+                face_landmarks = detection_result.multi_face_landmarks[0]
                 h, w, _ = frame.shape
                 
-                left_coords = [(int(face_landmarks[idx].x * w), int(face_landmarks[idx].y * h)) for idx in LEFT_EYE]
-                right_coords = [(int(face_landmarks[idx].x * w), int(face_landmarks[idx].y * h)) for idx in RIGHT_EYE]
+                left_coords = [(int(face_landmarks.landmark[idx].x * w), int(face_landmarks.landmark[idx].y * h)) for idx in LEFT_EYE]
+                right_coords = [(int(face_landmarks.landmark[idx].x * w), int(face_landmarks.landmark[idx].y * h)) for idx in RIGHT_EYE]
                 
                 left_EAR = calculate_EAR(left_coords)
                 right_EAR = calculate_EAR(right_coords)
