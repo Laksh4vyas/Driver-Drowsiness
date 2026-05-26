@@ -1,0 +1,19 @@
+# Virtual environment
+.venv/
+venv/
+env/
+
+# MediaPipe model (large binary, auto-downloaded on first run)
+face_landmarker.task
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Temp video uploads
+temp_vid.mp4
+
+# OS files
+.DS_Store
+Thumbs.db
