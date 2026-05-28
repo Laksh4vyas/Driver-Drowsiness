@@ -216,9 +216,6 @@ def main_app():
     frame_thresh = st.sidebar.slider("Warning Frames Trigger", min_value=5, max_value=60, value=20)
     
     st.sidebar.markdown("<br><br><br><br>", unsafe_allow_html=True)
-    if st.sidebar.button("🔒 Secure Logout"):
-        st.session_state['logged_in'] = False
-        st.rerun()
     
     # ------------- DASHBOARD LAYOUT -------------
     st.title("Driver Drowsiness Monitor")
@@ -382,5 +379,4 @@ def main_app():
         update_metrics()
 
 
-if __name__ == "__main__":
-    main_app()
+main_app()
