@@ -19,8 +19,13 @@ A real-time AI-powered driver drowsiness monitoring system built with **Python**
 ## 📸 Screenshots
 
 ### Live Monitoring Dashboard
-
 ![Live Monitoring Dashboard](assets/screenshots/dashboard.png)
+
+### Blink Count
+![Blink Count](assets/screenshots/blinkCount.png)
+
+### Video Input
+![Video Input](assets/screenshots/videolnput.png)
 
 ## 🧠 How It Works
 
