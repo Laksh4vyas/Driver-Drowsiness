@@ -340,12 +340,10 @@ def main_app():
                         blink_count += 1
                     counter = 0
                     current_status = "Active"
-                        
-            
-                frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                    stframe.image(frame_rgb, channels="RGB", use_container_width=True)
 
-            
+            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            stframe.image(frame_rgb, channels="RGB", use_container_width=True)
+
             # Status & Metric rendering
             if current_status == "Active":
                 html = "<div class='status-card status-active'><h2 style='margin:0'>✅ SECURE</h2><p style='margin:0; opacity:0.9'>Monitoring active</p></div>"
