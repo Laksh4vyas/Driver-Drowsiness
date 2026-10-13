@@ -16,6 +16,12 @@ A real-time AI-powered driver drowsiness monitoring system built with **Python**
 
 ---
 
+## 📸 Screenshots
+
+### Live Monitoring Dashboard
+
+![Live Monitoring Dashboard](assets/screenshots/dashboard.png)
+
 ## 🧠 How It Works
 
 The system uses the **Eye Aspect Ratio (EAR)** algorithm:
