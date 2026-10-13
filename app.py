@@ -342,17 +342,17 @@ def main_app():
                     current_status = "Active"
                         
             
-frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
-if frame_rgb is not None and frame_rgb.size > 0:
-    stframe.image(
-        frame_rgb,
-        channels="RGB",
-        use_container_width=True
-    )
-else:
-    st.error("Could not display the video frame.")
-    break
+                frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                
+                if frame_rgb is not None and frame_rgb.size > 0:
+                    stframe.image(
+                        frame_rgb,
+                        channels="RGB",
+                        use_container_width=True
+                    )
+                else:
+                    st.error("Could not display the video frame.")
+                    break
 
             
             # Status & Metric rendering
